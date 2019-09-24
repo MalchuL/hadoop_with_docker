@@ -1,0 +1,48 @@
+FROM ubuntu:18.04
+
+
+
+RUN apt-get update && apt-get upgrade -y
+RUN apt-get install ssh -y
+RUN apt-get install rsync -y
+
+RUN apt-get install openjdk-8-jdk -y
+RUN ls /usr/lib/jvm
+
+#RUN addgroup hadoop
+#RUN adduser --ingroup hadoop hduser
+#RUN usermod -aG sudo hduser
+
+COPY hosts /etc/hosts
+
+#RUN ssh-keygen -t rsa -P ""
+#RUN cat $HOME/.ssh/id_rsa.pub >> $HOME/.ssh/authorized_keys
+
+RUN ls
+RUN mkdir /downloads
+WORKDIR downloads/
+RUN wget http://mirror.linux-ia64.org/apache/hadoop/common/hadoop-2.9.2/hadoop-2.9.2.tar.gz -q
+
+RUN mv /downloads/hadoop-2.9.2.tar.gz /usr/local/
+WORKDIR /usr/local/
+RUN ls
+RUN tar xzf hadoop-2.9.2.tar.gz
+RUN mv hadoop-2.9.2 hadoop
+
+#Hadoop variables
+ENV JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk-amd64
+ENV HADOOP_INSTALL=/usr/local/hadoop
+ENV PATH=$PATH:$HADOOP_INSTALL/bin
+ENV PATH=$PATH:$HADOOP_INSTALL/sbin
+ENV HADOOP_MAPRED_HOME=$HADOOP_INSTALL
+ENV HADOOP_COMMON_HOME=$HADOOP_INSTALL
+ENV HADOOP_HDFS_HOME=$HADOOP_INSTALL
+ENV YARN_HOME=$HADOOP_INSTALL
+
+RUN cat /usr/local/hadoop/etc/hadoop/hadoop-env.sh
+
+RUN echo master > etc/hadoop/slaves
+
+RUN cat /usr/local/hadoop/etc/hadoop/core-site.xml:
+
+

@@ -1,0 +1,14 @@
+service docker start
+
+docker-compose up --force-recreate
+#wait for complete
+docker ps
+#find master node id
+docker exec -it <master node_id> bash
+
+hdfs dfs -mkdir -p /user/root/input
+hdfs dfs -put LICENSE.txt /user/root/input/
+hadoop jar share/hadoop/mapreduce/hadoop-mapreduce-examples-2.9.2.jar wordcount input output
+hdfs dfs -cat /user/root/output/part-r-00000
+
+

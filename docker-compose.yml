@@ -1,0 +1,12 @@
+version: '3'
+services:
+  master:
+    build: master-node
+    ports:
+      - "8088:8088"
+  slave1:
+    build: datanode
+  slave2:
+    build: datanode
+
+
