@@ -4,6 +4,9 @@ services:
     build: master-node
     ports:
       - "8088:8088"
+      - "8042:8042"
+      - "9000:9000"
+      - "50070:50070"
   slave1:
     build: datanode
   slave2:
